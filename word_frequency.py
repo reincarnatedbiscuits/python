@@ -1,7 +1,5 @@
-import collections
-
 '''
-    word_frequency():
+    return_word_frequency():
         Returns the number of occurrences of a word, default in alphabetical order
     
     Enhancements:
@@ -16,9 +14,14 @@ import collections
         then return all occurrences (for file in os.dir(directory))
 '''
 
-def word_frequency():
+import collections
+
+def findOccurrences(s, ch):
+    return [i for i, letter in enumerate(s) if (letter == ch) and ch.isalpha()]
+
+def return_word_frequency(**kwargs):
     # Open a file, C:\temp\python\word_frequency\sample.txt in read mode 
-    text = open("C:\\temp\\python\\word_frequency\\sample.txt", "r") 
+    text = open("C:\\temp\\python\\word_frequency\\sample.txt", "r")
 
     # Create an empty dictionary
     d = dict() 
@@ -51,18 +54,23 @@ def word_frequency():
                 # Add the word to dictionary with count 1 
                 d[word] = 1
 
-    '''
-    # put the dictionary into an OrderedDict (easier to read in alphabetical order)
-    od = collections.OrderedDict(sorted(d.items()))
+    if kwargs.get('runtype')=="alphabetical":
+        # put the dictionary into an OrderedDict (easier to read in alphabetical order)
+        od = collections.OrderedDict(sorted(d.items()))
 
-    # Print the contents of dictionary -- sorted by word in alphabetical order
-    for key, value in od.items():
-        print(key, ":", value) 
-    '''
+        # Print the contents of dictionary -- sorted by word in alphabetical order
+        for key, value in od.items():
+            print(key, ":", value) 
+    elif kwargs.get('runtype')=="frequency":
+        # sort by frequency descending, then word in alphabetical order: this results in a list of tuples  (word, frequency)
+        # print(sorted(d.items(), key=lambda x: (-x[1], x[0])))
 
-    # sort by frequency descending, then word in alphabetical order: this results in a list of tuples  (word, frequency)
-    print(sorted(d.items(), key=lambda x: (-x[1], x[0])))
+        l = sorted(d.items(), key=lambda x: (-x[1], x[0]))
 
-    
+        for item in l:
+            print(item[0], ":", item[1])
+        
+return_word_frequency(runtype='alphabetical')
 
-word_frequency()
+# if I want to get back in the dict certain items based on value: [k for k, v in dict1.items() if v == 4]
+# for instance, the maximum is 4
